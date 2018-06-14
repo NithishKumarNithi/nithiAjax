@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX SAMPLE</title>
+  <style type="text/css">
+     body{
+      background-color: #444;
+      font-family: Arial;
+     }
+     h3{
+      color: aqua ;
+     }
+    .footballfacts{
+      border: none;
+      outline: none;
+      color: #fff;
+      border-radius: 5px;
+      font-size: 15px;
+      font-weight: 400;
+      padding: 10px 20px;
+      background: linear-gradient(to right,lime,aqua);
+      box-shadow: 0px 8px lime;
+    }
+    .footballfacts:active {
+       box-shadow: 0 8px lime;
+       transform: translateY(4px);
+    }
+    .container{
+      margin-top: 10px;
+    }
+    .para{
+      border-radius: 10px;
+      color: aqua;
+      word-spacing: 5px;
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="header">
+  	<h3>FACTS OF FOOTBALL</h3>
+  </div>
+  <button class="footballfacts" id="footballfacts">FootBall</button>
+
+  <div class="container">
+  	<p class="para" id="para"></p>
+  </div>
+ 
+  <script type="text/javascript">
+  	var Football = document.getElementById('footballfacts');
+  	Football.onclick = footballfact;
+
+    var para = document.getElementById("para");
+    var count = 0 ;
+    
+    var output = ""
+
+  	function footballfact(){
+     if(count < 1){
+  	  var http = new XMLHttpRequest();
+  	  http.open("Get","ajax.json",true);
+  	  http.onload = function(){
+  	  	if(this.status == 200 && this.readyState == 4){
+  	  	   var facts = JSON.parse(this.responseText);
+  	  	   for(var i in facts){
+
+  	  	   	output += '<ul>'+'<li>'+facts[i].fact+'</li>'+'</ul>';
+            para.style.border = "1px solid lime";
+  	  	   	para.innerHTML = output;
+  	  	   }  	  	   
+  	    }	  	  
+  	   }
+  	   http.send(); 
+       count = count + 1;
+       console.log(count);
+     }else{
+        alert("Result is already viewed");
+     }
+  	}
+  	
+  </script>
+</body>
+</html>
